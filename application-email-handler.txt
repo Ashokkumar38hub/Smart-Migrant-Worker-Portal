@@ -1,0 +1,127 @@
+# Job Application Email Notification Setup (Migrant Connect)
+
+To enable real email notifications for both **Workers** and **Providers**, follow these steps.
+
+## 1. SQL Migration
+Run the following SQL in your Supabase SQL Editor to create the table and set up permissions:
+
+```sql
+-- Create job_applications table
+CREATE TABLE IF NOT EXISTS job_applications (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  job_id UUID REFERENCES jobs(id) ON DELETE CASCADE,
+  worker_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  status TEXT DEFAULT 'pending',
+  applied_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(job_id, worker_id)
+);
+
+-- Enable RLS
+ALTER TABLE job_applications ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Users can apply for jobs
+CREATE POLICY "Users can apply for jobs" ON job_applications
+  FOR INSERT WITH CHECK (auth.uid() = worker_id);
+
+-- Policy: Users can view their own applications
+CREATE POLICY "Users can view own applications" ON job_applications
+  FOR SELECT USING (auth.uid() = worker_id);
+```
+
+## 2. Supabase Edge Function (send-application-email)
+Create a new Edge Function named `send-application-email`. This function now notifies **both** the worker (confirmation) and the provider (new application alert).
+
+```typescript
+// supabase/functions/send-application-email/index.ts
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
+
+serve(async (req) => {
+  const payload = await req.json()
+  const { record } = payload
+
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+  )
+
+  // 1. Fetch worker and job details
+  const { data: worker } = await supabase.auth.admin.getUserById(record.worker_id)
+  const { data: job } = await supabase
+    .from('jobs')
+    .select('title, company, provider_id')
+    .eq('id', record.job_id)
+    .single()
+
+  // 2. Fetch provider details
+  const { data: provider } = await supabase
+    .from('provider_profiles')
+    .select('contact_email, contact_person')
+    .eq('id', job.provider_id)
+    .single()
+
+  const workerEmail = worker?.user?.email
+  const providerEmail = provider?.contact_email
+  const jobTitle = job?.title
+  const company = job?.company
+  const workerName = worker?.user?.user_metadata?.full_name || "A worker"
+
+  const emails = []
+
+  // Email to Worker
+  if (workerEmail) {
+    emails.push({
+      from: 'Migrant Connect <notifications@resend.dev>',
+      to: workerEmail,
+      subject: `Application Successful: ${jobTitle}`,
+      html: `
+        <h1>Application Received!</h1>
+        <p>You have successfully applied for <strong>${jobTitle}</strong> at <strong>${company}</strong>.</p>
+        <p>The provider will contact you if they are interested.</p>
+      `,
+    })
+  }
+
+  // Email to Provider
+  if (providerEmail) {
+    emails.push({
+      from: 'Migrant Connect <notifications@resend.dev>',
+      to: providerEmail,
+      subject: `New Application: ${jobTitle}`,
+      html: `
+        <h1>New Job Application!</h1>
+        <p>A worker (${workerName}) has applied for your job: <strong>${jobTitle}</strong>.</p>
+        <p>Log in to the Provider Portal to review their profile.</p>
+      `,
+    })
+  }
+
+  // Send all emails
+  const results = await Promise.all(emails.map(email => 
+    fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify(email),
+    })
+  ))
+
+  return new Response(JSON.stringify({ success: true }), {
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+```
+
+## 3. Database Webhook
+In Supabase Dashboard:
+1. Go to **Database** -> **Webhooks**.
+2. Create a new webhook:
+   - **Name**: `send_application_email`
+   - **Table**: `job_applications`
+   - **Events**: `INSERT`
+   - **Type**: `Supabase Edge Function`
+   - **Function**: `send-application-email`
