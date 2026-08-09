@@ -1,0 +1,30 @@
+export const RECOMMENDED_COURSES: Record<string, { name: string; provider: string; url: string; isFree: boolean }> = {
+    "Masonry": { name: "Basic Masonry Techniques", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Mason", isFree: true },
+    "Concrete Work": { name: "Concrete Construction & Finishing", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Concrete", isFree: true },
+    "Safety Protocols": { name: "Workplace Safety & OSHA Basics", provider: "Coursera", url: "https://www.coursera.org/learn/workplace-safety", isFree: false },
+    "Machine Operation": { name: "Industrial Machine Operations", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Machine%20Operator", isFree: true },
+    "Quality Check": { name: "Quality Assurance Foundations", provider: "LinkedIn Learning", url: "https://www.linkedin.com/learning/quality-assurance-foundations", isFree: false },
+    "Assembly": { name: "Manufacturing & Assembly", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Assembly", isFree: true },
+    "Welding": { name: "Certified Welder Course", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Welder", isFree: true },
+    "Steel Fixing": { name: "Advanced Steel Fixing", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Steel%20Fixer", isFree: true },
+    "Plumbing": { name: "Plumbing Basics", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Plumber", isFree: true },
+    "Carpentry": { name: "Carpentry Fundamentals", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Carpenter", isFree: true },
+    "Heavy Equipment Operation": { name: "Heavy Machinery Operations", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Heavy%20Equipment", isFree: true },
+    "AutoCAD Basics": { name: "AutoCAD for Construction", provider: "Udemy", url: "https://www.udemy.com/course/autocad-2023-masterclass/", isFree: false },
+    "Basic Electrical": { name: "Basic Electrical Wiring", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Electrician", isFree: true },
+    "Wiring": { name: "Electrical Wiring & Circuits", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Wiring", isFree: true },
+    "Painting": { name: "Interior & Exterior Painting", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Painter", isFree: true },
+    "Surface Preparation": { name: "Surface Preparation Techniques", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Surface%20Preparation", isFree: true },
+    "Pipe Fitting": { name: "Pipe Fitting & Plumbing", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Pipe%20Fitting", isFree: true },
+    "CNC Operation": { name: "CNC Machining Fundamentals", provider: "Udemy", url: "https://www.udemy.com/course/cnc-machining/", isFree: false },
+    "Textile Weaving": { name: "Textile Production Basics", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Textile", isFree: true },
+    "Forklift": { name: "Forklift Operation & Safety", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Forklift", isFree: true },
+    "Loading": { name: "Warehousing & Loading Techniques", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Loading", isFree: true },
+    "Inventory": { name: "Inventory Management Basics", provider: "Coursera", url: "https://www.coursera.org/learn/supply-chain-management", isFree: false },
+    "Sewing": { name: "Garment Sewing & Stitching", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Sewing", isFree: true },
+    "Heavy Lifting": { name: "Ergonomics & Safe Lifting", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Safe%20Lifting", isFree: true },
+    "Driving Assistance": { name: "Road Safety & Driving Assistance", provider: "Skill India", url: "https://www.skillindiadigital.gov.in/courses?search=Driving", isFree: true },
+};
+
+export const ALL_JOBS: any[] = [];
+

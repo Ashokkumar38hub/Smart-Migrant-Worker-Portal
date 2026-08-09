@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 20% 8%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 220 20% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 8%;
+
+    --primary: 25 90% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 178 55% 28%;
+    --secondary-foreground: 178 20% 95%;
+
+    --muted: 220 15% 95%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 178 45% 92%;
+    --accent-foreground: 178 55% 28%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 25 90% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 96%;
+    --sidebar-foreground: 220 20% 8%;
+    --sidebar-primary: 25 90% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 178 45% 92%;
+    --sidebar-accent-foreground: 178 55% 28%;
+    --sidebar-border: 220 15% 90%;
+    --sidebar-ring: 25 90% 55%;
+
+    /* Custom tokens */
+    --success: 145 60% 40%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 90% 50%;
+    --warning-foreground: 0 0% 10%;
+    --info: 200 80% 50%;
+    --info-foreground: 0 0% 100%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(25, 90%, 55%) 0%, hsl(178, 55%, 28%) 100%);
+    --gradient-card-hover: linear-gradient(135deg, hsl(0, 0%, 96%) 0%, hsl(0, 0%, 98%) 100%);
+    --shadow-glow: 0 0 30px hsl(25, 90%, 55%, 0.1);
+  }
+
+  .dark {
+    --background: 220 20% 8%;
+    --foreground: 38 25% 93%;
+
+    --card: 220 18% 12%;
+    --card-foreground: 38 25% 93%;
+
+    --popover: 220 18% 14%;
+    --popover-foreground: 38 25% 93%;
+
+    --primary: 25 90% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 178 55% 28%;
+    --secondary-foreground: 178 20% 95%;
+
+    --muted: 220 15% 16%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 178 45% 22%;
+    --accent-foreground: 38 25% 93%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 22%;
+    --ring: 25 90% 55%;
+
+    --sidebar-background: 220 18% 10%;
+    --sidebar-foreground: 38 25% 93%;
+    --sidebar-primary: 25 90% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 178 45% 22%;
+    --sidebar-accent-foreground: 38 25% 93%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 25 90% 55%;
+
+    --gradient-card-hover: linear-gradient(135deg, hsl(220, 18%, 14%) 0%, hsl(220, 18%, 18%) 100%);
+    --shadow-glow: 0 0 30px hsl(25, 90%, 55%, 0.15);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Noto Sans Tamil', 'Noto Sans', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Sans Tamil', 'Noto Sans', sans-serif;
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .touch-target {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
